@@ -28,7 +28,6 @@ const StyledText = styled.span`
   font-size: 17px;
   font-weight: 700;
   color: #392927;
-  transition: all .3s ease;
 `;
 
 const LangBtn = styled.button`
@@ -48,7 +47,6 @@ const Lang = styled.span`
   font-size: 17px;
   color: #392927;
   background-color: transparent;
-  transition: all .3s ease;
 `;
 
 const Header = () => {
