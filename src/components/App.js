@@ -1,12 +1,14 @@
-import logo from '../assets/logo.svg';
 import '../styles/App.css';
+import Header from './Header';
+import Footer from './Footer';
+import Login from '../pages/Login';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <h1>JobWize</h1>
-      </header>
+      <Header />
+      <Login />
+      <Footer />
     </div>
   );
 }
