@@ -6,7 +6,8 @@ import { StyledForm,
   StyledFormControl,
   StyledFormInput } from "../components/styled_components/Form";
 import StyledButton from "../components/styled_components/Button";
-import cover from "../assets/image/login-cover.jpg"
+import cover from "../assets/image/login-cover.jpg";
+import API from "../utils/api";
 
 const LoginContainer = styled.div`
   display: flex;
@@ -59,8 +60,12 @@ const Login = props => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleSubmit = () => {
-    console.log(email, password);
+  const login = () => {
+    const api = new API();
+    api
+      .login(email, password)
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
   }
 
   return (
@@ -90,7 +95,7 @@ const Login = props => {
           </StyledFormControl>
 
           <ButtonsContainer>
-            <StyledButton primary type="button" onClick={ handleSubmit }>LOGIN</StyledButton>
+            <StyledButton primary type="button" onClick={ login }>LOGIN</StyledButton>
             <StyledButton type="button">CREATE ACCOUNT</StyledButton>
           </ButtonsContainer>
           <ForgotContainer>
