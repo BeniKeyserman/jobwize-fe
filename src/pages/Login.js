@@ -1,5 +1,7 @@
 import React, {useState} from "react";
+import { useCookies } from "react-cookie";
 import styled from "styled-components";
+import API from "../utils/api";
 import StyledContainer from "../components/styled_components/Constainer";
 import { StyledForm,
   StyledFormTitle,
@@ -7,7 +9,6 @@ import { StyledForm,
   StyledFormInput } from "../components/styled_components/Form";
 import StyledButton from "../components/styled_components/Button";
 import cover from "../assets/image/login-cover.jpg";
-import API from "../utils/api";
 
 const LoginContainer = styled.div`
   display: flex;
@@ -59,12 +60,17 @@ const ForgotLink = styled.span`
 const Login = props => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [cookies, setCookie] = useCookies([]);
 
   const login = () => {
     const api = new API();
     api
       .login(email, password)
-      .then((res) => console.log(res))
+      .then((res) => {
+        setCookie('accessToken', res.data.accessToken);
+        props.setLoginState(true);
+        props.setRole(res.data.role);
+      })
       .catch((err) => console.log(err));
   }
 
