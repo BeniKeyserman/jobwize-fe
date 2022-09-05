@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { Cookies } from 'react-cookie';
 import '../styles/App.css';
-import ProtectedRoute from './ProtectedRoute';
+import { LoginRoute, ProtectedRoute } from './ProtectedRoute';
 import Header from './Header';
 import Footer from './Footer';
 import Login from '../pages/Login';
@@ -12,13 +12,25 @@ import Employee from '../pages/Employee';
 const App = () => {
   const cookies = new Cookies();
   const [isLoggedIn, setLoginState] = useState(cookies.get('accessToken') ? true : false);
-  const [role, setRole] = useState();  
+  const [role, setRole] = useState(cookies.get('userRole'));  
 
   return (
     <div className="App">
       <Header />
         <Routes>
-          <Route path='/login' element={ <Login setLoginState={ setLoginState } setRole={ setRole } /> } />
+          <Route index element={
+              <LoginRoute isLoggedIn={ isLoggedIn } role={ role }>
+                <Login setLoginState={ setLoginState } setRole={ setRole } /> 
+              </LoginRoute>
+            }
+          />
+          <Route path='/login' 
+            element={ 
+              <LoginRoute isLoggedIn={ isLoggedIn } role={ role }>
+                <Login setLoginState={ setLoginState } setRole={ setRole } /> 
+              </LoginRoute>
+              }
+            />
           <Route path='/employer'
             element={ 
               <ProtectedRoute isLoggedIn={ isLoggedIn }>
