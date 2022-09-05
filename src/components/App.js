@@ -33,14 +33,14 @@ const App = () => {
             />
           <Route path='/employer'
             element={ 
-              <ProtectedRoute isLoggedIn={ isLoggedIn }>
+              <ProtectedRoute isLoggedIn={ isLoggedIn } role='employer'>
                 <Employer /> 
               </ProtectedRoute>              
             } 
           />
           <Route path='/employee'
             element={ 
-              <ProtectedRoute isLoggedIn={ isLoggedIn }>
+              <ProtectedRoute isLoggedIn={ isLoggedIn } role='employee'>
                 <Employee /> 
               </ProtectedRoute>              
             } 
