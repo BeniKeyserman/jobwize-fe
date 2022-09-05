@@ -1,5 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { BrowserRouter } from 'react-router-dom';
+import { CookiesProvider } from 'react-cookie';
 import './styles/index.css';
 import App from './components/App';
 import reportWebVitals from './utils/reportWebVitals';
@@ -7,7 +9,11 @@ import reportWebVitals from './utils/reportWebVitals';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <BrowserRouter>
+      <CookiesProvider>
+        <App />
+      </CookiesProvider>
+    </BrowserRouter>
   </React.StrictMode>
 );
 

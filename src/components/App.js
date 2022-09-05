@@ -1,35 +1,41 @@
-import { useState, useEffect } from 'react';
-import { CookiesProvider, Cookies } from 'react-cookie';
+import { useState } from 'react';
+import { Routes, Route } from 'react-router-dom';
+import { Cookies } from 'react-cookie';
 import '../styles/App.css';
+import ProtectedRoute from './ProtectedRoute';
 import Header from './Header';
 import Footer from './Footer';
 import Login from '../pages/Login';
-import Employee from '../pages/Employee';
 import Employer from '../pages/Employer';
+import Employee from '../pages/Employee';
 
 const App = () => {
-  const [isLoggedIn, setLoginState] = useState();
+  const cookies = new Cookies();
+  const [isLoggedIn, setLoginState] = useState(cookies.get('accessToken') ? true : false);
   const [role, setRole] = useState();  
 
-  useEffect(() => {
-    const cookies = new Cookies();
-    let token = cookies.get('accessToken')
-    console.log(token);
-    setLoginState(token ? true : false)
-  }, []);
-
   return (
-    <CookiesProvider>
-      <div className="App">
-        <Header />
-          {
-            isLoggedIn
-              ? <Employer />
-              : <Login setLoginState={ setLoginState } setRole={ setRole } />
-          }
-        <Footer />
-      </div>
-    </CookiesProvider>
+    <div className="App">
+      <Header />
+        <Routes>
+          <Route path='/login' element={ <Login setLoginState={ setLoginState } setRole={ setRole } /> } />
+          <Route path='/employer'
+            element={ 
+              <ProtectedRoute isLoggedIn={ isLoggedIn }>
+                <Employer /> 
+              </ProtectedRoute>              
+            } 
+          />
+          <Route path='/employee'
+            element={ 
+              <ProtectedRoute isLoggedIn={ isLoggedIn }>
+                <Employee /> 
+              </ProtectedRoute>              
+            } 
+          />
+        </Routes>
+      <Footer />
+    </div>
   );
 }
 
