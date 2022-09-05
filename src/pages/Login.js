@@ -1,4 +1,5 @@
 import React, {useState} from "react";
+import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import styled from "styled-components";
 import API from "../utils/api";
@@ -61,15 +62,22 @@ const Login = props => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [cookies, setCookie] = useCookies([]);
+  const navigate = useNavigate();
 
   const login = () => {
     const api = new API();
     api
       .login(email, password)
-      .then((res) => {
+      .then((res) => {        
+        let role = res.data.role;
         setCookie('accessToken', res.data.accessToken);
+        setCookie('userRole', role);
         props.setLoginState(true);
         props.setRole(res.data.role);
+
+        role === 'employee'
+          ? navigate('/employee')
+          : navigate('/employer')
       })
       .catch((err) => console.log(err));
   }
